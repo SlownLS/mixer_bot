@@ -1,0 +1,23 @@
+{
+  "name": "slownls_mixerbot",
+  "version": "1.0.0",
+  "description": "A base for create mixer bot",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"tsc --watch\" \"nodemon build/index.js\""
+  },
+  "author": "SlownLS",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^13.13.4",
+    "@types/ws": "^7.2.4",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@mixer/client-node": "^3.5.0",
+    "@types/request": "^2.48.4",
+    "@types/yamljs": "^0.2.30",
+    "ws": "^7.2.5",
+    "yamljs": "^0.3.0"
+  }
+}
