@@ -1,4 +1,4 @@
-# mixer_bot
+# SlownLS - Mixer Bot
 A base for create mixer bot
 
 ## Installation
