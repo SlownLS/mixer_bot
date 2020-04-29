@@ -32,11 +32,15 @@ export class Channel{
             };
 
             socket.on("connected", () => {
-                console.log("Connected on channel #" + channelId)
+                var event = bot.call("connected")
+
+                if ( event == false ) return;                
             })
     
             socket.on('UserJoin', data => {
+                var event = bot.call("UserJoin", data)
 
+                if ( event == false ) return;
             })
     
             socket.on('ChatMessage', (data) => {
@@ -49,7 +53,11 @@ export class Channel{
                 if ( !message.message[0].text ) return;
 
                 let fullContent = message.message[0].text
-    
+
+                var event = bot.call("ChatMessage", socket, message, fullContent)
+
+                if ( event == false ) return;
+
                 if ( !fullContent.startsWith(prefix) ) return;
     
                 let content = fullContent.substr(prefix.length, fullContent.length)
@@ -58,9 +66,13 @@ export class Channel{
 
                 if ( func == false ) return;
 
-                func.default(socket, message, args)
+                if ( func.default ){
+                    func.default(socket, message, args)
+                } else {
+                    func(socket, message, args)
+                }
             })      
-        })
+        }).catch(e => console.error(e))
 
         this._socket = socket
     }

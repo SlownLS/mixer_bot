@@ -11,6 +11,7 @@ export class MixerBot {
     public channels: Array<IChannel> = [] as any
 
     public infos: any
+    public events: any = [] as any
  
     constructor()
     {
@@ -48,7 +49,9 @@ export class MixerBot {
                 channel.connect()
 
                 infos.channel = channel
-            });
+            }).catch((e) => {
+                console.log("Cannot connect to channel #" + infos.id) 
+            })
         })
     }    
 
@@ -81,7 +84,7 @@ export class MixerBot {
      * @param name 
      * @param func 
      */
-    public addCommand(name: string, func: () => any) {
+    public addCommand(name: string, func: (...args: any) => any) {
         return this.commands.push({
             name: name,
             func: func
@@ -101,5 +104,27 @@ export class MixerBot {
         if ( !found || !found.func ) return false
 
         return found.func
+    }
+
+    /**
+     * Add event listener
+     * @param name 
+     * @param func 
+     */
+    public on(name: string, func: (...args: any) => any)
+    {
+        this.events[name] = func
+    }
+
+    /**
+     * Call event listener
+     * @param name 
+     * @param args 
+     */
+    public call(name: string, ...args: any) : any
+    {
+        if ( !this.events[name] ) return true;
+
+        return this.events[name](...args)
     }
 }

@@ -8,6 +8,7 @@ class MixerBot {
     constructor() {
         this.commands = [];
         this.channels = [];
+        this.events = [];
         this.client = new Mixer.Client();
         this.config = YAML.load(path.resolve("settings.yml"));
     }
@@ -36,6 +37,8 @@ class MixerBot {
                 let channel = new channel_1.Channel(this, infos.id, response.body);
                 channel.connect();
                 infos.channel = channel;
+            }).catch((e) => {
+                console.log("Cannot connect to channel #" + infos.id);
             });
         });
     }
@@ -81,6 +84,24 @@ class MixerBot {
         if (!found || !found.func)
             return false;
         return found.func;
+    }
+    /**
+     * Add event listener
+     * @param name
+     * @param func
+     */
+    on(name, func) {
+        this.events[name] = func;
+    }
+    /**
+     * Call event listener
+     * @param name
+     * @param args
+     */
+    call(name, ...args) {
+        if (!this.events[name])
+            return true;
+        return this.events[name](...args);
     }
 }
 exports.MixerBot = MixerBot;
