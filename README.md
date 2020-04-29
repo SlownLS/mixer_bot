@@ -14,6 +14,12 @@ bot.addChannel(92820999) // to get the channel id : https://mixer.com/api/v1/cha
 
 bot.addCommand("ping", require("./commands/ping"))
 
+bot.on("ChatMessage", (socket, msg, content) => {
+    // TODO
+
+    return true // return if the event continues or not
+});
+
 bot.start()
 ```
 
